@@ -26,18 +26,35 @@ import junit.framework.TestCase;
  */
 public class TokenResponseTest extends TestCase {
 
-  private static final String JSON = "{\"access_token\":\"2YotnFZFEjr1zCsicMWpAA\","
-      + "\"token_type\":\"example\",\"expires_in\":3600,"
-      + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\","
-      + "\"example_parameter\":\"example_value\"}";
+    private static final String JSON_NUMBER = "{\"access_token\":\"2YotnFZFEjr1zCsicMWpAA\","
+            + "\"token_type\":\"example\",\"expires_in\":3600,"
+            + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\","
+            + "\"example_parameter\":\"example_value\"}";
 
-  public void test() throws Exception {
-    JsonFactory jsonFactory = new JacksonFactory();
-    TokenResponse response = jsonFactory.fromString(JSON, TokenResponse.class);
-    assertEquals("2YotnFZFEjr1zCsicMWpAA", response.getAccessToken());
-    assertEquals("example", response.getTokenType());
-    assertEquals(3600L, response.getExpiresInSeconds().longValue());
-    assertEquals("tGzv3JOkF0XG5Qx2TlKWIA", response.getRefreshToken());
-    assertEquals("example_value", response.get("example_parameter"));
-  }
+    private static final String JSON_STRING = "{\"access_token\":\"2YotnFZFEjr1zCsicMWpAA\","
+            + "\"token_type\":\"example\",\"expires_in\":3600,"
+            + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\","
+            + "\"example_parameter\":\"example_value\"}";
+
+    public void testWtihExpiresInAsNumber() throws Exception {
+        JsonFactory jsonFactory = new JacksonFactory();
+        TokenResponse response = jsonFactory.fromString(JSON_NUMBER, TokenResponse.class);
+        assertEquals("2YotnFZFEjr1zCsicMWpAA", response.getAccessToken());
+        assertEquals("example", response.getTokenType());
+        assertEquals(3600L, response.getExpiresInSeconds().longValue());
+        assertEquals("tGzv3JOkF0XG5Qx2TlKWIA", response.getRefreshToken());
+        assertEquals("example_value", response.get("example_parameter"));
+    }
+
+    public void testWtihExpiresInAsString() throws Exception {
+        JsonFactory jsonFactory = new JacksonFactory();
+        TokenResponse response = jsonFactory.fromString(JSON_STRING, TokenResponse.class);
+        assertEquals("2YotnFZFEjr1zCsicMWpAA", response.getAccessToken());
+        assertEquals("example", response.getTokenType());
+        assertEquals(3600L, response.getExpiresInSeconds().longValue());
+        assertEquals("tGzv3JOkF0XG5Qx2TlKWIA", response.getRefreshToken());
+        assertEquals("example_value", response.get("example_parameter"));
+    }
+
+
 }
